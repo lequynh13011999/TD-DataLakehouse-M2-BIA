@@ -1,0 +1,14 @@
+=== PHASE 3.5 - VALIDATION FINALE DU DATA WAREHOUSE ===
+DimEntreprise: 268 lignes
+DimPoste: 171 lignes
+DimLieu: 78 lignes
+FactOffres: 254 lignes
+FactAvis: 1537 lignes
+Controles OK: 23
+Avertissements: 1
+Echecs: 0
+
+Détails des avertissements et échecs:
+- [AVERTISSEMENT] audit_etl.csv: 7 avertissement(s) ETL existant(s), à documenter (non modifiés)
+
+Rapport CSV: C:\TD_DATALAKE\DATALAKE\3_PRODUCTION_ZONE\validation_phase3\rapport_validation.csv

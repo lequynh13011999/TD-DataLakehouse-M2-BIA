@@ -1,0 +1,25 @@
+﻿CATEGORIE;CONTROLE;STATUT;DETAIL
+SCHEMA;DimEntreprise;OK;Colonnes attendues présentes
+SCHEMA;DimPoste;OK;Colonnes attendues présentes
+SCHEMA;DimLieu;OK;Colonnes attendues présentes
+SCHEMA;FactOffres;OK;Colonnes attendues présentes
+SCHEMA;FactAvis;OK;Colonnes attendues présentes
+CLE_PRIMAIRE;DimEntreprise.EntrepriseID;OK;"lignes=268; vides=0; doublons=0"
+CLE_PRIMAIRE;DimPoste.PosteID;OK;"lignes=171; vides=0; doublons=0"
+CLE_PRIMAIRE;DimLieu.LieuID;OK;"lignes=78; vides=0; doublons=0"
+CLE_PRIMAIRE;FactOffres.OffreID;OK;"lignes=254; vides=0; doublons=0"
+CLE_PRIMAIRE;FactAvis.AvisID;OK;"lignes=1537; vides=0; doublons=0"
+CLE_ETRANGERE;FactOffres.EntrepriseID -> DimEntreprise.EntrepriseID;OK;"vides=0; orphelines=0"
+CLE_ETRANGERE;FactOffres.PosteID -> DimPoste.PosteID;OK;"vides=0; orphelines=0"
+CLE_ETRANGERE;FactOffres.LieuID -> DimLieu.LieuID;OK;"vides=0; orphelines=0"
+CLE_ETRANGERE;FactAvis.EntrepriseID -> DimEntreprise.EntrepriseID;OK;"vides=0; orphelines=0"
+VOLUMETRIE;FactOffres;OK;"observé=254; référence Phase 3.3=254"
+VOLUMETRIE;FactAvis;OK;"observé=1537; référence Phase 3.3=1537"
+MESURE;FactOffres.NbOffres;OK;valeurs différentes de 1: 0
+TRACABILITE;FactOffres.ObjetIDSource;OK;Objets sources vides: 0
+MESURE;FactAvis.NbAvis;OK;valeurs différentes de 1: 0
+TRACABILITE;FactAvis.ObjetIDSource;OK;Objets sources vides: 0
+GRANULARITE;FactOffres.ObjetIDSource;OK;Objets sources répétés: 0
+GRANULARITE;FactAvis.(ObjetIDSource,NumeroAvisPage);OK;Paires répétées: 0
+QUALITE;FactAvis.TexteAvis;OK;Textes vides ou NULL: 0
+AUDIT_SOURCE;audit_etl.csv;AVERTISSEMENT;7 avertissement(s) ETL existant(s), à documenter (non modifiés)

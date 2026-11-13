@@ -1,0 +1,30 @@
+﻿TABLE;COLONNE;TYPE_LOGIQUE;ROLE;SOURCE_OU_REGLE;OBLIGATOIRE;COMMENTAIRE
+DimEntreprise;EntrepriseID;INTEGER;PK;Clé substitut générée par ETL;OUI;Une ligne par entreprise canonique retenue
+DimEntreprise;NomEntreprise;TEXT;ATTRIBUT;nom_entreprise (EMP/SOC/AVI) + correspondances validées;OUI;Ne jamais accepter une suggestion fuzzy sans validation
+DimEntreprise;CleNormalisee;TEXT;ATTRIBUT;Normalisation du nom de l'entreprise;OUI;"Une même clé peut représenter plusieurs noms; vérifier les collisions"
+DimEntreprise;VilleEntreprise;TEXT;ATTRIBUT;INFO-SOC.ville_entreprise;NON;NULL si entreprise sans fiche Glassdoor
+DimEntreprise;TailleEntreprise;TEXT;ATTRIBUT;INFO-SOC.taille_entreprise;NON;Garder le texte natif si pas de valeur numérique fiable
+DimEntreprise;DescriptionEntreprise;TEXT;ATTRIBUT;INFO-SOC.description_entreprise;NON;Description source
+DimEntreprise;NoteMoyenneSource;DECIMAL;ATTRIBUT;AVIS-SOC.note_moyenne_entreprise si disponible;NON;"Note de page/entreprise; PAS une note par avis"
+DimPoste;PosteID;INTEGER;PK;Clé substitut générée par ETL;OUI;Une ligne par libellé normalisé distinct
+DimPoste;LibellePoste;TEXT;ATTRIBUT;INFO-EMP.libelle_emploi;OUI;Conserver également la version originale si transformation
+DimLieu;LieuID;INTEGER;PK;Clé substitut générée par ETL;OUI;Une ligne par lieu d'offre distinct
+DimLieu;VilleOffre;TEXT;ATTRIBUT;INFO-EMP.ville_emploi;OUI;Ne pas confondre avec ville_entreprise
+FactOffres;OffreID;INTEGER;PK;Clé substitut générée par ETL;OUI;Granularité = 1 fichier HTML INFO-EMP / offre
+FactOffres;ObjetIDSource;TEXT;TRACE;OBJET_ID de l'HTML INFO-EMP;OUI;Unique dans FactOffres
+FactOffres;EntrepriseID;INTEGER;FK;DimEntreprise.EntrepriseID;OUI;Entreprise LinkedIn conservée même sans correspondance SOC
+FactOffres;PosteID;INTEGER;FK;DimPoste.PosteID;OUI;
+FactOffres;LieuID;INTEGER;FK;DimLieu.LieuID;OUI;
+FactOffres;DescriptionOffre;TEXT;ATTRIBUT;INFO-EMP.description_emploi;NON;"Texte long; peut aussi être dans une table détail"
+FactOffres;NbOffres;INTEGER;MESURE;Constante 1;OUI;SUM(NbOffres) = nombre d'offres
+FactAvis;AvisID;TEXT;PK;Concaténation stable ObjetIDSource + numéro d'avis;OUI;Granularité = 1 avis au sein d'un HTML AVIS-SOC
+FactAvis;ObjetIDSource;TEXT;TRACE;OBJET_ID de l'HTML AVIS-SOC;OUI;Répété pour plusieurs avis d'un fichier
+FactAvis;NumeroAvisPage;INTEGER;TRACE;Index avis_001, avis_002, ...;OUI;Ne pas assimiler à ID mondial unique d'un avis
+FactAvis;EntrepriseID;INTEGER;FK;DimEntreprise.EntrepriseID;OUI;Rattachement par nom SOC/AVI validé
+FactAvis;TitreAvis;TEXT;ATTRIBUT;AVIS-SOC.avis_NNN_titre;NON;
+FactAvis;TexteAvis;TEXT;ATTRIBUT;AVIS-SOC.avis_NNN_texte;NON;
+FactAvis;Avantages;TEXT;ATTRIBUT;AVIS-SOC.avis_NNN_avantages;NON;"Nombreux NULL; ne pas exiger"
+FactAvis;Inconvenients;TEXT;ATTRIBUT;AVIS-SOC.avis_NNN_inconvenients;NON;"Nombreux NULL; ne pas exiger"
+FactAvis;PosteAuteur;TEXT;ATTRIBUT;AVIS-SOC.avis_NNN_poste_auteur;NON;49 valeurs manquantes signalées en Phase 2
+FactAvis;LocalisationAuteur;TEXT;ATTRIBUT;AVIS-SOC.avis_NNN_localisation_auteur;NON;Ne pas confondre avec DimLieu des offres
+FactAvis;NbAvis;INTEGER;MESURE;Constante 1;OUI;SUM(NbAvis) = nombre d'avis

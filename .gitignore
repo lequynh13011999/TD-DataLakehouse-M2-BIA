@@ -1,0 +1,10 @@
+﻿.venv/
+__pycache__/
+*.pyc
+.env
+*.log
+*.backup
+*.rar
+
+DATALAKE/0_SOURCE_WEB/
+DATALAKE/1_LANDING_ZONE/

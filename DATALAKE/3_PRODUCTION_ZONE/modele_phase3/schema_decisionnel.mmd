@@ -1,0 +1,44 @@
+erDiagram
+    DimEntreprise ||--o{ FactOffres : "EntrepriseID"
+    DimEntreprise ||--o{ FactAvis : "EntrepriseID"
+    DimPoste ||--o{ FactOffres : "PosteID"
+    DimLieu ||--o{ FactOffres : "LieuID"
+    DimEntreprise {
+        int EntrepriseID PK
+        string NomEntreprise
+        string CleNormalisee
+        string VilleEntreprise
+        string TailleEntreprise
+        string DescriptionEntreprise
+        float NoteMoyenneSource
+    }
+    DimPoste {
+        int PosteID PK
+        string LibellePoste
+    }
+    DimLieu {
+        int LieuID PK
+        string VilleOffre
+    }
+    FactOffres {
+        int OffreID PK
+        string ObjetIDSource
+        int EntrepriseID FK
+        int PosteID FK
+        int LieuID FK
+        string DescriptionOffre
+        int NbOffres
+    }
+    FactAvis {
+        string AvisID PK
+        string ObjetIDSource
+        int NumeroAvisPage
+        int EntrepriseID FK
+        string TitreAvis
+        string TexteAvis
+        string Avantages
+        string Inconvenients
+        string PosteAuteur
+        string LocalisationAuteur
+        int NbAvis
+    }
